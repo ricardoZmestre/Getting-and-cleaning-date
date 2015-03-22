@@ -9,6 +9,8 @@ library(dplyr)
 
 # Check the zip file exists, if not download and unpack it.
 # Beware! The download takes a very long time.
+# Beware! The download.file below does not work with no method (or method='auto'),
+# nor method='curl'. Only method='wget' did work for me
 # Beware! The naming of the file is problematic--I need to rid the name from 
 # the %20 parts present, but the %2F parts must be kept.
 #filename <- 'getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip'
