@@ -1,0 +1,79 @@
+---
+title: "Codebook"
+author: "ricardoZmestre"
+date: "14/03/2015"
+output: html_document
+---
+
+This is a description of the file produced in the context of the course project of the course Getting and Cleaning Data, third in the series of courses in the Data Science specialisation, in Coursera. The starting data are measurements of diverse movements of subjects, taken from the inertial and gyroscopic devices of smartphones carried by the subjects. These data were obtained by a team of researchers conducting research on wearables. The dataset can be downloaded from [link](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip).
+
+Results from the exercise are collected in file 'meandata.txt'. The file has columns for the subject being measured, the activity being measured, and values for each pair of subject and activity measurements, measuring means of the orginal measurements. The means are taken for each single measurement in the original dataset, per subject and type of activity.
+
+# Codebook for exercise
+
+```{r, echo=FALSE, results='hide', message=FALSE, warning=FALSE}
+require(Hmisc)
+df <- read.table('datamean.txt', header=TRUE)
+item <- names(df)
+desc <- describe(df)
+```
+
+## Subject
+
+Nam: Subject
+
+The variable Subject collects an ordinal number to identify each of the subjects taking part in the experiment. There were 30 of those.
+
+```{r, echo=FALSE, results='hold'}
+desc$Subject
+```
+
+## Activities
+
+Name: Activities
+
+The variable Activities collects information on the specific activity each subject was engaging into when the corresponding measurement was taken. Six different types of activity were identified. 
+
+Type: Factor, 6 levels
+```{r, echo=FALSE, results='hold'}
+cat(levels(df$Activities))
+desc$Activities
+```
+
+## These are the measurements
+
+Measurements are described by names with 7 components, all of which are needed to understand the specific measure described. These components are for: time or frequency measurements; body movement of gravity measurement; acceleration or gyroscopic movement measurement; whether the movement is normal or is a jerk; whether the magnitude of the movement or its coordinates are measured.
+
+The precise naming of variables is:
+
+Chunk of name           | Meaning
+----------------------- | -----------------------------
+1. time or freq         | Time or frequency measurement
+2. Body or Gravity      | Body or gravity measurement
+3. Acc or Gyro          | Acceleration or gyroscopic movements
+4. Jerk                 | if present, Jerk movement (vs normal movement)
+5. Mag                  | if present, magnitude of movement (vs coordinates)
+6. .mean or .std        | mean or standard deviation of corresponding measure
+7. .X or .Y or .Z       | if present, measurement along X, Y or Z axis
+
+If the measurement is about magnitude of movement (Mag appears in the name), there is no coordinate attached to the measurement. Otherwise, a coordinates axis is present.
+
+All the measurements are floating numbers.
+
+The actual names present are:
+
+```{r, echo=FALSE}
+cat(sprintf('%s\n', names(df)[-1:-2]))
+```
+
+### Overview of measurements
+
+```{r, echo=FALSE, results='markup'}
+for (i in 3:length(df)) {
+  cat(paste('Name:', item[i]), '\n\n')
+  cat(paste('Type:', typeof(df[[i]]), '\n\n'))
+  print(desc[[i]])
+  cat('\n\n')
+}
+```
+
